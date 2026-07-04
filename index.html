@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arunachala Foundation — Serving Hindu Dharma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F3F0E6',
+                        'cream-dark': '#E8E4D8',
+                        dark: '#0A2218',
+                        saffron: '#FF9933',
+                        'saffron-light': '#FFB366',
+                        'saffron-dark': '#CC7A29',
+                        vermilion: '#E85D3A',
+                        maroon: '#8B1A1A',
+                    },
+                    fontFamily: {
+                        display: ['"Dela Gothic One"', 'cursive'],
+                        body: ['"Space Grotesk"', 'sans-serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #0A2218',
+                        'hard-sm': '2px 2px 0px 0px #0A2218',
+                        'hard-xl': '8px 8px 0px 0px #0A2218',
+                        'hard-saffron': '4px 4px 0px 0px #FF9933',
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'float-delay': 'float 4s ease-in-out 2s infinite',
+                        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glowPulse: {
+                            '0%, 100%': { opacity: '0.3' },
+                            '50%': { opacity: '0.6' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Space Grotesk', sans-serif; background: #F3F0E6; color: #0A2218; }
+        .font-display { font-family: 'Dela Gothic One', cursive; }
+        
+        /* Om watermark */
+        .om-watermark {
+            font-size: 20rem;
+            opacity: 0.03;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            line-height: 1;
+            color: #0A2218;
+        }
+
+        /* Decorative mandala border */
+        .mandala-border {
+            background-image: repeating-conic-gradient(from 0deg, transparent 0deg 10deg, rgba(255,153,51,0.05) 10deg 20deg);
+            border-radius: 50%;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* QR glow */
+        .qr-glow {
+            box-shadow: 0 0 40px rgba(255, 153, 51, 0.15), 0 0 80px rgba(255, 153, 51, 0.05);
+        }
+
+        /* Diya flame animation */
+        @keyframes flicker {
+            0%, 100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+            25% { transform: scaleY(1.1) scaleX(0.95); opacity: 0.9; }
+            50% { transform: scaleY(0.95) scaleX(1.05); opacity: 1; }
+            75% { transform: scaleY(1.05) scaleX(0.98); opacity: 0.85; }
+        }
+        .flame { animation: flicker 2s ease-in-out infinite; }
+
+        /* Toast notification */
+        .toast {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- ======== NAVIGATION ======== -->
+    <nav id="navbar" class="fixed top-4 left-0 right-0 z-50 px-4 transition-all duration-300">
+        <div class="max-w-5xl mx-auto bg-dark/95 backdrop-blur-md rounded-xl border-2 border-dark px-4 md:px-6 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <img src="https://z-cdn-media.chatglm.cn/files/3eb3bf89-951d-4eb9-918d-5895e3993c0e.png?auth_key=1883046765-2f8d996328f9493880b07975f6604de1-0-6c5bb0d3e07ec358f809e969afb4e08f" alt="Arunachala Foundation Logo" class="h-10 w-auto rounded-md">
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#about" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors">About</a>
+                <a href="#mission" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors">Mission</a>
+                <a href="#impact" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors">Impact</a>
+                <a href="#donate" class="bg-saffron hover:bg-saffron-light text-dark border-2 border-dark rounded-lg py-2 px-5 text-sm font-display tracking-wide transition-all hover:-translate-y-0.5 hover:shadow-hard-sm">
+                    Donate
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="menuToggle" class="md:hidden text-cream p-1" aria-label="Toggle menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu md:hidden max-w-5xl mx-auto bg-dark/95 backdrop-blur-md rounded-xl border-2 border-t-0 border-dark px-4">
+            <div class="py-4 flex flex-col gap-3">
+                <a href="#about" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors py-2 mobile-link">About</a>
+                <a href="#mission" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors py-2 mobile-link">Mission</a>
+                <a href="#impact" class="text-cream/70 hover:text-saffron text-sm font-medium transition-colors py-2 mobile-link">Impact</a>
+                <a href="#donate" class="bg-saffron text-dark border-2 border-dark rounded-lg py-2.5 px-5 text-sm font-display tracking-wide text-center mobile-link">Donate</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======== HERO ======== -->
+    <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-4 pt-28 sm:pt-32 pb-20 overflow-hidden bg-dark">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, #FF9933 1px, transparent 0); background-size: 40px 40px;"></div>
+        
+        <!-- Saffron glow -->
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-saffron/10 blur-[120px] animate-glow-pulse"></div>
+        
+        <!-- Om watermark -->
+        <div class="om-watermark select-none">ॐ</div>
+
+        <!-- Diya decoration -->
+        <div class="absolute bottom-10 left-10 hidden lg:block opacity-40">
+            <div class="relative">
+                <div class="w-8 h-8 bg-saffron/30 rounded-full blur-sm"></div>
+                <div class="flame absolute -top-6 left-1/2 -translate-x-1/2 w-4 h-8 bg-gradient-to-t from-saffron to-yellow-300 rounded-full rounded-t-full"></div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 right-10 hidden lg:block opacity-40">
+            <div class="relative">
+                <div class="w-8 h-8 bg-saffron/30 rounded-full blur-sm"></div>
+                <div class="flame absolute -top-6 left-1/2 -translate-x-1/2 w-4 h-8 bg-gradient-to-t from-saffron to-yellow-300 rounded-full rounded-t-full" style="animation-delay: 0.5s;"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center max-w-4xl mx-auto">
+            <!-- Sanskrit shloka -->
+            <p class="text-saffron/80 text-xs md:text-sm font-body tracking-[0.2em] uppercase mb-6 animate-float">
+                ॐ धर्मो रक्षति रक्षितः
+            </p>
+            
+            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-cream leading-none tracking-tight mb-6">
+                Arunachala<br>
+                <span class="text-saffron">Foundation</span>
+            </h1>
+            
+            <p class="text-cream/60 text-base md:text-lg font-body max-w-2xl mx-auto leading-relaxed mb-10">
+                Dedicated to the preservation, propagation, and service of Sanātana Dharma — illuminating hearts through seva, śraddhā, and sādhanā.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#donate" class="bg-saffron hover:bg-saffron-light text-dark border-2 border-saffron rounded-xl py-3.5 px-8 font-display text-base tracking-wide transition-all hover:-translate-y-1 hover:shadow-hard-saffron flex items-center gap-2">
+                    <i data-lucide="heart" class="w-5 h-5"></i>
+                    Support Our Mission
+                </a>
+                <a href="#about" class="bg-transparent hover:bg-cream/10 text-cream border-2 border-cream/30 hover:border-cream/60 rounded-xl py-3.5 px-8 font-display text-base tracking-wide transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                    Learn More
+                    <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <div class="w-5 h-8 border-2 border-cream/40 rounded-full flex items-start justify-center p-1">
+                <div class="w-1.5 h-1.5 bg-saffron rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== ABOUT ======== -->
+    <section id="about" class="relative py-20 md:py-28 px-4 bg-cream overflow-hidden">
+        <!-- Decorative dots -->
+        <div class="absolute top-10 right-10 w-24 h-24 opacity-20" style="background-image: radial-gradient(#0A2218 1px, transparent 1px); background-size: 8px 8px;"></div>
+        
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+                <!-- Image -->
+                <div class="reveal">
+                    <div class="relative">
+                        <div class="aspect-[4/3] rounded-[2rem] border-2 border-dark overflow-hidden shadow-hard-xl">
+                            <img src="https://picsum.photos/seed/arunachala-temple/800/600.jpg" alt="Temple" class="w-full h-full object-cover">
+                        </div>
+                        <!-- Floating badge -->
+                        <div class="absolute -bottom-4 -right-4 bg-saffron text-dark border-2 border-dark rounded-xl px-5 py-3 shadow-hard-sm font-display text-sm animate-float">
+                            Since Foundation
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <p class="text-saffron-dark text-xs font-semibold tracking-[0.15em] uppercase mb-3">About Us</p>
+                    <h2 class="font-display text-3xl md:text-4xl text-dark leading-tight tracking-tight mb-6">
+                        Rooted in Dharma,<br>Serving with <span class="text-saffron">Devotion</span>
+                    </h2>
+                    <p class="text-dark/70 text-base leading-relaxed mb-4 font-body">
+                        Arunachala Foundation is a charitable trust committed to the revitalisation of Hindu Dharma. Named after the sacred Arunachala Hill — revered as the embodiment of Lord Shiva — our foundation draws inspiration from the timeless wisdom of the Vedas, Upanishads, and the teachings of great sages.
+                    </p>
+                    <p class="text-dark/70 text-base leading-relaxed mb-8 font-body">
+                        We believe that Dharma is not merely a set of rituals but a living force that sustains harmony in the individual, the family, and the cosmos. Through charitable service, education, and temple support, we strive to make this eternal knowledge accessible to all.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-dark text-cream text-xs font-medium px-4 py-2 rounded-lg">Sanātana Dharma</span>
+                        <span class="bg-dark text-cream text-xs font-medium px-4 py-2 rounded-lg">Seva</span>
+                        <span class="bg-dark text-cream text-xs font-medium px-4 py-2 rounded-lg">Temple Restoration</span>
+                        <span class="bg-dark text-cream text-xs font-medium px-4 py-2 rounded-lg">Vedic Education</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== MISSION AREAS ======== -->
+    <section id="mission" class="relative py-20 md:py-28 px-4 bg-cream-dark">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-14 reveal">
+                <p class="text-saffron-dark text-xs font-semibold tracking-[0.15em] uppercase mb-3">What We Do</p>
+                <h2 class="font-display text-3xl md:text-4xl text-dark leading-tight tracking-tight mb-4">
+                    Our Pillars of <span class="text-saffron">Service</span>
+                </h2>
+                <p class="text-dark/60 text-base max-w-xl mx-auto font-body">
+                    Every action rooted in Dharma creates ripples of positive change across generations.
+                </p>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+                <!-- Card 1 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="landmark" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Temple Restoration</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Renovating and maintaining ancient temples, preserving sacred architecture and worship traditions for future generations.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.1s;">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="book-open" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Vedic Education</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Supporting Veda Pāṭhaśālās, Sanskrit learning centres, and initiatives that keep the sacred knowledge alive.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.2s;">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="hand-heart" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Community Seva</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Organising annadānam (food distribution), medical camps, and welfare programmes for devotees and underprivileged families.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.3s;">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="flame" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Festival Support</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Facilitating grand celebrations of festivals like Maha Shivaratri, Karthigai Deepam, and other sacred observances.</p>
+                </div>
+            </div>
+
+            <!-- Second row -->
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5">
+                <!-- Card 5 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="trees" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Goshala & Environment</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Maintaining goshalas (cow shelters) and promoting environmental stewardship as taught in our scriptures.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.1s;">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="users" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Youth Awareness</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Engaging young Hindus through workshops, discussions, and digital content to connect with their roots.</p>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="reveal group bg-white border-2 border-dark rounded-2xl p-5 shadow-hard hover:shadow-hard-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2 md:col-span-1" style="transition-delay: 0.2s;">
+                    <div class="w-12 h-12 bg-saffron/15 rounded-xl border-2 border-saffron/30 flex items-center justify-center mb-4 group-hover:bg-saffron/25 transition-colors">
+                        <i data-lucide="scroll-text" class="w-6 h-6 text-saffron-dark"></i>
+                    </div>
+                    <h3 class="font-display text-lg text-dark leading-tight mb-2">Scripture Publishing</h3>
+                    <p class="text-dark/60 text-sm leading-relaxed font-body">Publishing and freely distributing sacred texts, translations, and commentaries in regional languages.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== QUOTE BANNER ======== -->
+    <section class="relative py-16 md:py-20 px-4 bg-dark overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, #FF9933 1px, transparent 0); background-size: 30px 30px;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-saffron/5 blur-[100px]"></div>
+        
+        <div class="relative z-10 max-w-3xl mx-auto text-center reveal">
+            <div class="text-saffron text-5xl mb-6 font-display">ॐ</div>
+            <blockquote class="font-display text-2xl md:text-3xl text-cream leading-tight tracking-tight mb-6">
+                "Dharmo Rakshati Rakshitah"
+            </blockquote>
+            <p class="text-cream/50 text-base font-body italic mb-2">
+                — Mahābhārata
+            </p>
+            <p class="text-cream/40 text-sm font-body max-w-lg mx-auto">
+                "He who protects Dharma is protected by Dharma. Dharma is the supreme law that upholds the universe."
+            </p>
+        </div>
+    </section>
+
+    <!-- ======== IMPACT / STATS ======== -->
+    <section id="impact" class="relative py-20 md:py-28 px-4 bg-cream">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <p class="text-saffron-dark text-xs font-semibold tracking-[0.15em] uppercase mb-3">Our Impact</p>
+                <h2 class="font-display text-3xl md:text-4xl text-dark leading-tight tracking-tight mb-4">
+                    Seva in <span class="text-saffron">Numbers</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
+                <div class="reveal bg-white border-2 border-dark rounded-2xl p-6 text-center shadow-hard hover:-translate-y-1 transition-all duration-300">
+                    <div class="font-display text-3xl md:text-4xl text-saffron mb-1">25+</div>
+                    <p class="text-dark/60 text-sm font-body">Temples Supported</p>
+                </div>
+                <div class="reveal bg-white border-2 border-dark rounded-2xl p-6 text-center shadow-hard hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.1s;">
+                    <div class="font-display text-3xl md:text-4xl text-saffron mb-1">5000+</div>
+                    <p class="text-dark/60 text-sm font-body">Meals Served Monthly</p>
+                </div>
+                <div class="reveal bg-white border-2 border-dark rounded-2xl p-6 text-center shadow-hard hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.2s;">
+                    <div class="font-display text-3xl md:text-4xl text-saffron mb-1">120+</div>
+                    <p class="text-dark/60 text-sm font-body">Vedic Students Sponsored</p>
+                </div>
+                <div class="reveal bg-white border-2 border-dark rounded-2xl p-6 text-center shadow-hard hover:-translate-y-1 transition-all duration-300" style="transition-delay: 0.3s;">
+                    <div class="font-display text-3xl md:text-4xl text-saffron mb-1">50+</div>
+                    <p class="text-dark/60 text-sm font-body">Festivals Organised</p>
+                </div>
+            </div>
+
+            <!-- Image collage -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 reveal">
+                <div class="aspect-square rounded-2xl border-2 border-dark overflow-hidden">
+                    <img src="https://picsum.photos/seed/hindu-temple-1/400/400.jpg" alt="Temple service" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-2xl border-2 border-dark overflow-hidden">
+                    <img src="https://picsum.photos/seed/annadhanam-food/400/400.jpg" alt="Annadhanam" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-2xl border-2 border-dark overflow-hidden">
+                    <img src="https://picsum.photos/seed/vedic-study-3/400/400.jpg" alt="Vedic study" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-2xl border-2 border-dark overflow-hidden">
+                    <img src="https://picsum.photos/seed/festival-lights-7/400/400.jpg" alt="Festival celebrations" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== GALLERY / HIGHLIGHTS ======== -->
+    <section class="py-20 md:py-28 px-4 bg-dark overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <p class="text-saffron/70 text-xs font-semibold tracking-[0.15em] uppercase mb-3">Gallery</p>
+                <h2 class="font-display text-3xl md:text-4xl text-cream leading-tight tracking-tight mb-4">
+                    Moments of <span class="text-saffron">Devotion</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                <div class="reveal aspect-[4/5] rounded-2xl border-2 border-cream/10 overflow-hidden relative group">
+                    <img src="https://picsum.photos/seed/gopuram-tower/500/625.jpg" alt="Temple gopuram" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <p class="text-cream text-sm font-body">Temple Gopuram Restoration</p>
+                    </div>
+                </div>
+                <div class="reveal aspect-[4/5] rounded-2xl border-2 border-cream/10 overflow-hidden relative group" style="transition-delay: 0.1s;">
+                    <img src="https://picsum.photos/seed/diya-oil-lamp/500/625.jpg" alt="Deepam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <p class="text-cream text-sm font-body">Karthigai Deepam Celebration</p>
+                    </div>
+                </div>
+                <div class="reveal aspect-[4/5] rounded-2xl border-2 border-cream/10 overflow-hidden relative group col-span-2 md:col-span-1" style="transition-delay: 0.2s;">
+                    <img src="https://picsum.photos/seed/cow-goshala-care/500/625.jpg" alt="Goshala" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                        <p class="text-cream text-sm font-body">Goshala Seva</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== DONATE SECTION ======== -->
+    <section id="donate" class="relative py-20 md:py-28 px-4 bg-cream overflow-hidden">
+        <!-- Decorative -->
+        <div class="absolute top-20 left-10 w-32 h-32 rounded-full bg-saffron/5 blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-saffron/5 blur-3xl"></div>
+        
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <p class="text-saffron-dark text-xs font-semibold tracking-[0.15em] uppercase mb-3">Support Us</p>
+                <h2 class="font-display text-3xl md:text-5xl text-dark leading-tight tracking-tight mb-4">
+                    Your <span class="text-saffron">Dāna</span> Matters
+                </h2>
+                <p class="text-dark/60 text-base max-w-2xl mx-auto font-body leading-relaxed">
+                    In Sanātana Dharma, Dāna (charitable giving) is one of the most meritorious acts. Every contribution, no matter the size, helps protect and propagate our sacred heritage.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <!-- QR Code Card -->
+                <div class="reveal bg-white border-2 border-dark rounded-2xl p-8 shadow-hard-xl text-center">
+                    <div class="inline-block p-4 bg-cream rounded-2xl border-2 border-dark/10 qr-glow mb-6">
+                        <img src="https://z-cdn-media.chatglm.cn/files/10536d21-3e37-4def-bfd4-fa1b6e41fcf8.png?auth_key=1883046765-a08d91ccd50a4be2b5b4f26c62a7a5eb-0-4a5ecb84d02dc5a3a134bff05670c2df" alt="Scan QR Code to Donate" class="w-56 h-56 md:w-64 md:h-64 rounded-lg">
+                    </div>
+                    <h3 class="font-display text-xl text-dark mb-2">Scan to Donate</h3>
+                    <p class="text-dark/60 text-sm font-body mb-4">Use any UPI app to scan and contribute</p>
+                    <div class="flex items-center justify-center gap-2 text-saffron-dark text-xs font-medium">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        Secure UPI Payment
+                    </div>
+                </div>
+
+                <!-- Donation Info -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="bg-dark text-cream border-2 border-dark rounded-2xl p-8 shadow-hard-saffron mb-5">
+                        <h3 class="font-display text-xl mb-4 text-saffron">How Your Donation Helps</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 text-cream/70 text-sm font-body">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0 mt-0.5"></i>
+                                <span><strong class="text-cream">₹500</strong> — Feeds 10 devotees through Annadānam</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-cream/70 text-sm font-body">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0 mt-0.5"></i>
+                                <span><strong class="text-cream">₹2,000</strong> — Sponsors a Vedic student for a month</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-cream/70 text-sm font-body">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0 mt-0.5"></i>
+                                <span><strong class="text-cream">₹5,000</strong> — Contributes to temple maintenance</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-cream/70 text-sm font-body">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0 mt-0.5"></i>
+                                <span><strong class="text-cream">₹10,000</strong> — Funds a community medical camp</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-cream/70 text-sm font-body">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0 mt-0.5"></i>
+                                <span><strong class="text-cream">Any Amount</strong> — Every rupee counts in Dharma's service</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Bank details -->
+                    <div class="bg-white border-2 border-dark rounded-2xl p-6 shadow-hard">
+                        <h4 class="font-display text-sm text-dark mb-3 flex items-center gap-2">
+                            <i data-lucide="building-2" class="w-4 h-4 text-saffron-dark"></i>
+                            Bank Transfer Details
+                        </h4>
+                        <div class="space-y-2 text-sm text-dark/70 font-body">
+                            <div class="flex justify-between py-1.5 border-b border-dark/10">
+                                <span class="font-medium text-dark/50">Account Name</span>
+                                <span class="text-dark font-medium">Arunachala Foundation</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-dark/10">
+                                <span class="font-medium text-dark/50">Account No.</span>
+                                <span class="text-dark font-medium">XXXXXXXXXXXX</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-dark/10">
+                                <span class="font-medium text-dark/50">IFSC Code</span>
+                                <span class="text-dark font-medium">XXXXXXXXXXX</span>
+                            </div>
+                            <div class="flex justify-between py-1.5">
+                                <span class="font-medium text-dark/50">Bank</span>
+                                <span class="text-dark font-medium">Update your bank name</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-dark/40 mt-3 italic">* Please update bank details above with your actual information</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== SACRED VERSE ======== -->
+    <section class="py-16 px-4 bg-cream-dark">
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <div class="text-saffron text-3xl mb-4">🙏</div>
+            <p class="font-display text-xl md:text-2xl text-dark leading-snug tracking-tight mb-4">
+                "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः<br>
+                सर्वे भद्राणि पश्यन्तु मा कश्चिद्दुःखभाग्भवेत्"
+            </p>
+            <p class="text-dark/50 text-sm font-body italic">
+                May all beings be happy. May all beings be free from illness. May all beings experience prosperity. May none suffer sorrow.
+                <br>— Peace Mantra, Upanishads
+            </p>
+        </div>
+    </section>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="bg-dark border-t-2 border-cream/10 py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <!-- Brand -->
+                <div>
+                    <img src="https://z-cdn-media.chatglm.cn/files/3eb3bf89-951d-4eb9-918d-5895e3993c0e.png?auth_key=1883046765-2f8d996328f9493880b07975f6604de1-0-6c5bb0d3e07ec358f809e969afb4e08f" alt="Arunachala Foundation" class="h-14 w-auto rounded-md mb-4">
+                    <p class="text-cream/50 text-sm font-body leading-relaxed mb-4">
+                        Illuminating the path of Dharma through selfless service, devotion, and the timeless wisdom of Sanātana Dharma.
+                    </p>
+                    <div class="text-saffron text-lg">ॐ</div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-display text-sm text-cream mb-4 tracking-wide">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-cream/50 hover:text-saffron text-sm font-body transition-colors">About Us</a></li>
+                        <li><a href="#mission" class="text-cream/50 hover:text-saffron text-sm font-body transition-colors">Our Mission</a></li>
+                        <li><a href="#impact" class="text-cream/50 hover:text-saffron text-sm font-body transition-colors">Impact</a></li>
+                        <li><a href="#donate" class="text-cream/50 hover:text-saffron text-sm font-body transition-colors">Donate</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-display text-sm text-cream mb-4 tracking-wide">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-cream/50 text-sm font-body">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-saffron flex-shrink-0 mt-0.5"></i>
+                            <span>Update your address here<br>Tiruvannamalai, Tamil Nadu</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-cream/50 text-sm font-body">
+                            <i data-lucide="mail" class="w-4 h-4 text-saffron flex-shrink-0"></i>
+                            <span>contact@arunachalafoundation.org</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-cream/50 text-sm font-body">
+                            <i data-lucide="phone" class="w-4 h-4 text-saffron flex-shrink-0"></i>
+                            <span>+91 XXXXX XXXXX</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="border-t border-cream/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-cream/30 text-xs font-body">
+                    © 2025 Arunachala Foundation. All rights reserved. Dedicated to the service of Sanātana Dharma.
+                </p>
+                <p class="text-cream/20 text-xs font-body">
+                    Built with devotion 🙏
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======== TOAST NOTIFICATION ======== -->
+    <div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-dark text-cream border-2 border-saffron rounded-xl px-6 py-4 shadow-hard-saffron flex items-center gap-3 max-w-sm">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-saffron flex-shrink-0"></i>
+        <span id="toastMessage" class="text-sm font-body">Message here</span>
+    </div>
+
+    <!-- ======== BACK TO TOP ======== -->
+    <button id="backToTop" class="fixed bottom-6 left-6 z-50 bg-saffron text-dark border-2 border-dark rounded-xl w-11 h-11 flex items-center justify-center shadow-hard-sm hover:-translate-y-1 transition-all duration-300 opacity-0 pointer-events-none" aria-label="Back to top">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <!-- ======== SCRIPTS ======== -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ---- Mobile Menu Toggle ----
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+
+        menuToggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('open', menuOpen);
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // ---- Scroll Reveal ----
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ---- Back to Top Button ----
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                backToTop.classList.add('opacity-100');
+            } else {
+                backToTop.classList.add('opacity-0', 'pointer-events-none');
+                backToTop.classList.remove('opacity-100');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ---- Toast Function ----
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // ---- Smooth scroll for anchor links ----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ---- Navbar scroll effect ----
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('top-2');
+                navbar.classList.remove('top-4');
+            } else {
+                navbar.classList.remove('top-2');
+                navbar.classList.add('top-4');
+            }
+        });
+    </script>
+</body>
+</html>
